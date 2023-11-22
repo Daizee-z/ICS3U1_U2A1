@@ -450,7 +450,7 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
         if(pairs != 10) { //print the pairs every time in the button manipulation to see if they work and so i can figure out if pairs = 10 at the end and adjust accordingly
             return;
         }
-        Collections.shuffle(images); 
+        Collections.shuffle(images); //give me something to commit please
         pairs = 0;
         playIsPressed = true;
         
