@@ -8,7 +8,7 @@ import java.util.HashMap;
 import javax.swing.JButton;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Random;
+import java.util.Random; //delete this an hashmap later
 import javax.swing.ImageIcon;
 import java.util.Collections;
 
@@ -30,14 +30,13 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
     static final ImageIcon j = new ImageIcon("perfectOctave.jpg");
     static final ImageIcon back = new ImageIcon("back.png");
     static final ImageIcon done = new ImageIcon("caesura.png");
-    static ArrayList<ImageIcon> images = new ArrayList<>(Arrays.asList(a,a,b,b,c,c,d,d,e,e,f,f,g,g,h,h,i,i));
-    static ArrayList<JButton> findButton = new ArrayList<>();
-    static String[] cards = new String[2];
-    static int count = 0;
+    static ArrayList<ImageIcon> images = new ArrayList<>(Arrays.asList(a,a,b,b,c,c,d,d,e,e,f,f,g,g,h,h,i,i,j,j));
+    static JButton[] findButton = new JButton[2];
+    static ImageIcon[] shuffledImages = new ImageIcon[20];
+    static int count = 0, pairs = 10;
     static boolean playIsPressed = false;
     
-    
-    String[] match = new String[2];
+   
     /**
      * Creates new form U2A1_DaisyZhouu
      */
@@ -67,43 +66,48 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
     }
 
     public static void buttonManipulation(JButton button, int cardNum) { //length for the button number then subtract 1 to get index for the shuffle, definitely a more efficient way but wtv
-         if (!playIsPressed) {
+        String firstImage1, secondImage1; 
+        output.setText("");
+        if (!playIsPressed) {
              output.setText("Please press play to begin");
              return;
          }
 
-        button.setIcon(images.get(cardNum-1));
-        
-//            button.setIcon(index);  maybe char.at(5) and maybe char.at(6) then get that index? get charlength to determine how mnay to get
-            //add the buttons to array
+        button.setIcon(shuffledImages(cardNum-1)); //???
             
             count++;
 
-            String buttonName = button.toString(); //this does not get the button name tho ;(
+            
         if (count == 1){
-            ImageIcon firstImage = (ImageIcon)button.getIcon();
-            String firstImage1 = firstImage.toString();
-            cards[0] = buttonName; //therefore this is screwed
+//            ImageIcon firstImage = (ImageIcon)button.getIcon();
+//            firstImage1 = firstImage.toString();
+            findButton[0] = button;
         } else if (count == 2) { //else if may not be necessary
-            ImageIcon secondImage = (ImageIcon)button.getIcon();
-            String secondImage1 = secondImage.toString();
-            String[] checkImages = {firstImage1, secondImage1};
-            matchesOrNot(checkImages, button);
-            cards[1] = buttonName; //idk what I'm doing w this tbh trying to flip them back
+//            ImageIcon secondImage = (ImageIcon)button.getIcon();
+//            secondImage1 = secondImage.toString();
+            findButton[1] = button;
+            matchesOrNot(findButton);
         }
        
         
     } 
     
-    public static void matchesOrNot(String[] matches, JButton button) { //need to somehow make it so that both buttons get reset maybe another array
+    public static void matchesOrNot(JButton[] matches) { //need to somehow make it so that both buttons get reset maybe another array
         count = 0;
         
-        if(matches[0].equals(matches[1])) {
-            button.setIcon(done);
-            button.setEnabled(false);
+        if(matches[0].equals(matches[1])) { 
+            matches[0].setIcon(done);
+            matches[1].setIcon(done);
+            matches[0].setEnabled(false);
+            matches[1].setEnabled(false);
             output.setText("match!");
+            pairs++;
+            if(pairs == 10){
+                playIsPressed = false; //assuming this works
+            }
         } else {
-            button.setIcon(back);
+            matches[0].setIcon(back);
+            matches[1].setIcon(back);
             output.setText("not a match.");
         }
         
@@ -294,6 +298,11 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
         jScrollPane1.setViewportView(output);
 
         exit.setText("Exit");
+        exit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -430,7 +439,18 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
 
     private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
         // TODO add your handling code here:
-        Collections.shuffle(images); //make this unavailable until they win so they can play again
+        if(pairs != 10) {
+            return;
+        }
+        Collections.shuffle(images);
+        pairs = 0;
+        playIsPressed = true;
+        
+        for(int k = 0; k < 20; k++) {
+            shuffledImages[k] = images.get(0);
+        }
+        
+ //make this unavailable until they win so they can play again, need to put it somewhere to start the game too, maybe do while???
     }//GEN-LAST:event_playActionPerformed
 
     private void guessAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessAgainActionPerformed
@@ -537,6 +557,11 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
         // TODO add your handling code here:
         buttonManipulation(card20, 20);
     }//GEN-LAST:event_card20ActionPerformed
+
+    private void exitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_exitActionPerformed
 
     /**
      * @param args the command line arguments
