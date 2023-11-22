@@ -450,11 +450,11 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
         if(pairs != 10) { //print the pairs every time in the button manipulation to see if they work and so i can figure out if pairs = 10 at the end and adjust accordingly
             return;
         }
-        Collections.shuffle(images);
+        Collections.shuffle(images); 
         pairs = 0;
         playIsPressed = true;
         
- //make this unavailable until they win so they can play again, need to put it somewhere to start the game too, maybe do while???
+ 
     }//GEN-LAST:event_playActionPerformed
 
     private void guessAgainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_guessAgainActionPerformed
