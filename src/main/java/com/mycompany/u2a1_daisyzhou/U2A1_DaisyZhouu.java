@@ -439,7 +439,7 @@ public class U2A1_DaisyZhouu extends javax.swing.JFrame {
 
     private void playActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playActionPerformed
         // TODO add your handling code here:
-        if(pairs != 10) { //using this comment to commit hopefully
+        if(pairs != 10) { //using this comment to commit hopefully pt.2
             return;
         }
         Collections.shuffle(images);
